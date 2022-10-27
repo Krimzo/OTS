@@ -28,7 +28,7 @@ public final class Parser {
                 case '}' -> {
                     objectLevel -= 1;
                     if (objectLevel == 0) {
-                        SerialContainer container = new SerialContainer();
+                        ObjectContainer container = new ObjectContainer();
                         container.data.putAll(parse(builder.toString()));
                         result.put(key, container);
                         builder = new StringBuilder();

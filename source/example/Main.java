@@ -1,16 +1,16 @@
 package example;
 
-import rtos.SerialContainer;
-import rtos.SerialObject;
+import rtos.ObjectContainer;
+import rtos.StorableObject;
 
-public class Main implements SerialObject {
+public class Main implements StorableObject {
     private final Float3 position = new Float3(1, 2, 3);
     private String name = null;
     private boolean visible = true;
     private char c = '9';
 
     public static void main(String[] args) {
-        SerialContainer container = new SerialContainer();
+        ObjectContainer container = new ObjectContainer();
         container.put("main", new Main());
         container.writeDataToFile("test.txt");
 
@@ -23,7 +23,7 @@ public class Main implements SerialObject {
     }
 
     @Override
-    public void writeToContainer(SerialContainer container) {
+    public void putToContainer(ObjectContainer container) {
         container.put("position", position);
         container.put("name", name);
         container.put("visible", visible);
@@ -31,7 +31,7 @@ public class Main implements SerialObject {
     }
 
     @Override
-    public void readFromContainer(SerialContainer container) {
+    public void getFromContainer(ObjectContainer container) {
         container.getObject("position", position);
         name = container.getPrimitive("name");
         visible = container.getPrimitive("visible");

@@ -1,11 +1,11 @@
 package example;
 
-import rtos.SerialContainer;
-import rtos.SerialObject;
+import rtos.ObjectContainer;
+import rtos.StorableObject;
 
 import java.util.Locale;
 
-public class Float3 implements SerialObject {
+public class Float3 implements StorableObject {
     public float x = 0.0f;
     public float y = 0.0f;
     public float z = 0.0f;
@@ -19,14 +19,14 @@ public class Float3 implements SerialObject {
     }
 
     @Override
-    public void writeToContainer(SerialContainer container) {
+    public void putToContainer(ObjectContainer container) {
         container.put("x", x);
         container.put("y", y);
         container.put("z", z);
     }
 
     @Override
-    public void readFromContainer(SerialContainer container) {
+    public void getFromContainer(ObjectContainer container) {
         x = container.getPrimitive("x");
         y = container.getPrimitive("y");
         z = container.getPrimitive("z");

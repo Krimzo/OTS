@@ -17,8 +17,8 @@ public final class Formatter {
             builder.append(object.getKey());
             builder.append(" ");
 
-            if (valueClass == SerialContainer.class) {
-                SerialContainer container = (SerialContainer) value;
+            if (valueClass == ObjectContainer.class) {
+                ObjectContainer container = (ObjectContainer) value;
 
                 builder.append("{\n");
                 builder.append(format(container.data, tabLevel + 1));

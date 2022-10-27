@@ -1,3 +1,3 @@
-# Readable Text Object Serialization
+# Readable Text Object Storage
 
-Java readable serializer
+Java object storage as readable text.

@@ -5,10 +5,10 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class SerialContainer {
+public final class ObjectContainer {
     final Map<String, Object> data = new LinkedHashMap<>();
 
-    public SerialContainer() {}
+    public ObjectContainer() {}
 
     // Data
     public void putFormattedData(String data) throws Exception {
@@ -52,9 +52,9 @@ public final class SerialContainer {
             data.put(name, object);
             return true;
         }
-        if (object instanceof SerialObject) {
-            SerialContainer container = new SerialContainer();
-            ((SerialObject) object).writeToContainer(container);
+        if (object instanceof StorableObject) {
+            ObjectContainer container = new ObjectContainer();
+            ((StorableObject) object).putToContainer(container);
             data.put(name, container);
             return true;
         }
@@ -70,18 +70,18 @@ public final class SerialContainer {
         return null;
     }
 
-    public SerialContainer getObject(String name) {
+    public ObjectContainer getObject(String name) {
         final Object object = data.get(name);
-        if (object instanceof SerialContainer) {
-            return (SerialContainer) object;
+        if (object instanceof ObjectContainer) {
+            return (ObjectContainer) object;
         }
         return null;
     }
 
-    public boolean getObject(String name, SerialObject outObject) {
-        final SerialContainer container = getObject(name);
+    public boolean getObject(String name, StorableObject outObject) {
+        final ObjectContainer container = getObject(name);
         if (!Instance.isNull(container)) {
-            outObject.readFromContainer(container);
+            outObject.getFromContainer(container);
             return true;
         }
         return false;

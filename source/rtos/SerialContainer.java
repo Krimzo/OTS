@@ -6,32 +6,27 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class SerialContainer {
-    private final Formatter formatter = new Formatter();
-    private final Preprocessor preprocessor = new Preprocessor();
-    private final Parser parser = new Parser();
-
     final Map<String, Object> data = new LinkedHashMap<>();
 
     public SerialContainer() {}
 
-    // Data handling
-    public void loadData(String data) throws Exception {
-        data = preprocessor.process(data);
-        this.data.putAll(parser.parse(data));
+    // Data
+    public void putFormattedData(String data) throws Exception {
+        this.data.putAll(Parser.parse(Preprocessor.process(data)));
     }
 
-    public String writeData() {
-        return formatter.format(data, 0);
+    public String getFormattedData() {
+        return Formatter.format(data, 0);
     }
 
     public void clearData() {
         data.clear();
     }
 
-    // File handling
+    // Files
     public void loadDataFromFile(String filepath) {
         try {
-            loadData(Files.readString(Path.of(filepath)));
+            putFormattedData(Files.readString(Path.of(filepath)));
         }
         catch (Exception ignored) {
             System.out.println("File \"" + filepath + "\" loading error");
@@ -40,105 +35,64 @@ public final class SerialContainer {
 
     public void writeDataToFile(String filepath) {
         try {
-            Files.writeString(Path.of(filepath), writeData());
+            Files.writeString(Path.of(filepath), getFormattedData());
         }
         catch (Exception ignored) {
             System.out.println("File \"" + filepath + "\" writing error");
         }
     }
 
-    // Setters
-    public void saveBool(String name, boolean value) {
-        data.put(name, value);
+    // Putting
+    public boolean put(String name, Object object) {
+        if (Instance.isNull(object)) {
+            data.put(name, null);
+            return true;
+        }
+        if (Instance.isPrimitiveType(object.getClass())) {
+            data.put(name, object);
+            return true;
+        }
+        if (object instanceof SerialObject) {
+            SerialContainer container = new SerialContainer();
+            ((SerialObject) object).writeToContainer(container);
+            data.put(name, container);
+            return true;
+        }
+        return false;
     }
 
-    public void saveLong(String name, long value) {
-        data.put(name, value);
-    }
-
-    public void saveDouble(String name, double value) {
-        data.put(name, value);
-    }
-
-    public void saveChar(String name, char value) {
-        data.put(name, value);
-    }
-
-    public void saveString(String name, String value) {
-        data.put(name, value);
-    }
-
-    public void saveObject(String name, SerialObject object) {
-        SerialContainer container = new SerialContainer();
-        object.writeSerial(container);
-        data.put(name, container);
-    }
-
-    // Getters
-    public boolean getBool(String name) {
-        return (boolean) data.get(name);
-    }
-
-    public long getLong(String name) {
-        return (long) data.get(name);
-    }
-
-    public double getDouble(String name) {
-        return (double) data.get(name);
-    }
-
-    public char getChar(String name) {
-        return (char) data.get(name);
-    }
-
-    public String getString(String name) {
-        return (String) data.get(name);
+    // Getting
+    public <T> T getPrimitive(String name) {
+        final Object object = data.get(name);
+        if (!Instance.isNull(object) && Instance.isPrimitiveType(object.getClass())) {
+            return (T) data.get(name);
+        }
+        return null;
     }
 
     public SerialContainer getObject(String name) {
-        return (SerialContainer) data.get(name);
-    }
-
-    public <T extends SerialObject> void getObject(String name, T object) {
-        SerialContainer container = getObject(name);
-        if (container != null) {
-            object.readSerial(container);
+        final Object object = data.get(name);
+        if (object instanceof SerialContainer) {
+            return (SerialContainer) object;
         }
+        return null;
     }
 
-    // Full getters
-    private <T> Map<String, T> getAll(Class<T> klass) {
-        Map<String, T> result = new LinkedHashMap<>();
-        for (var object : data.entrySet()) {
-            final Object value = object.getValue();
-            if (klass.isInstance(value)) {
-                result.put(object.getKey(), (T) value);
-            }
+    public boolean getObject(String name, SerialObject outObject) {
+        final SerialContainer container = getObject(name);
+        if (!Instance.isNull(container)) {
+            outObject.readFromContainer(container);
+            return true;
         }
-        return result;
+        return false;
     }
 
-    public Map<String, Boolean> getBools() {
-        return getAll(Boolean.class);
+    // Other
+    public boolean contains(String name) {
+        return data.containsKey(name);
     }
 
-    public Map<String, Long> getLongs() {
-        return getAll(Long.class);
-    }
-
-    public Map<String, Double> getDoubles() {
-        return getAll(Double.class);
-    }
-
-    public Map<String, Character> getChars() {
-        return getAll(Character.class);
-    }
-
-    public Map<String, String> getStrings() {
-        return getAll(String.class);
-    }
-
-    public Map<String, SerialContainer> getObjects() {
-        return getAll(SerialContainer.class);
+    public boolean remove(String name) {
+        return !Instance.isNull(data.remove(name));
     }
 }

@@ -3,9 +3,9 @@ package rtos;
 import java.util.Map;
 
 public final class Formatter {
-    public Formatter() {}
+    private Formatter() {}
 
-    public String format(Map<String, Object> data, int tabLevel) {
+    public static String format(Map<String, Object> data, int tabLevel) {
         StringBuilder builder = new StringBuilder();
         final String tabs = "    ".repeat(tabLevel);
 

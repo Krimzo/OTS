@@ -1,15 +1,15 @@
 package rtos;
 
 public final class Preprocessor {
-    public Preprocessor() {}
+    private Preprocessor() {}
 
-    public String process(String data) throws Exception {
+    public static String process(String data) throws Exception {
         data = removeWhitespace(data);
         data = runPreprocessor(data);
         return data;
     }
 
-    private String removeUnusedSpaces(String data) {
+    private static String removeUnusedSpaces(String data) {
         StringBuilder builder = new StringBuilder();
         boolean insideComment = false;
         boolean insideLiteral = false;
@@ -33,7 +33,7 @@ public final class Preprocessor {
         return builder.toString();
     }
 
-    private String removeWhitespace(String data) {
+    private static String removeWhitespace(String data) {
         data = data.replaceAll("\n", "");
         data = data.replaceAll("\r", "");
         data = data.replaceAll("\t", "    ");
@@ -41,7 +41,7 @@ public final class Preprocessor {
         return data;
     }
 
-    private String runPreprocessor(String data) throws Exception {
+    private static String runPreprocessor(String data) throws Exception {
         for (int index = data.indexOf("->"); index >= 0; index = data.indexOf("->")) {
             final int keyIndex = data.lastIndexOf('#', index);
             if (keyIndex < 0) {

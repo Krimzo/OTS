@@ -1,3 +1,5 @@
+package example;
+
 import rtos.SerialContainer;
 import rtos.SerialObject;
 
@@ -17,17 +19,17 @@ public class Float3 implements SerialObject {
     }
 
     @Override
-    public void writeSerial(SerialContainer container) {
-        container.saveDouble("x", x);
-        container.saveDouble("y", y);
-        container.saveDouble("z", z);
+    public void writeToContainer(SerialContainer container) {
+        container.put("x", x);
+        container.put("y", y);
+        container.put("z", z);
     }
 
     @Override
-    public void readSerial(SerialContainer container) {
-        x = (float) container.getDouble("x");
-        y = (float) container.getDouble("y");
-        z = (float) container.getDouble("z");
+    public void readFromContainer(SerialContainer container) {
+        x = container.getPrimitive("x");
+        y = container.getPrimitive("y");
+        z = container.getPrimitive("z");
     }
 
     @Override

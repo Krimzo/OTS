@@ -4,41 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class Parser {
-    public Parser() {}
+    private Parser() {}
 
-    private boolean containsNumber(String value) {
-        for (char c : value.toCharArray()) {
-            if (c > 47 && c < 58) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Object processValue(String value) {
-        if (value.equals("null")) {
-            return null;
-        }
-
-        if (value.contains("\"")) {
-            return value.replace("\"", "");
-        }
-
-        if (value.contains("'")) {
-            return value.replace("'", "").charAt(0);
-        }
-
-        if (containsNumber(value)) {
-            if (value.contains(".")) {
-                return Double.parseDouble(value);
-            }
-            return Long.parseLong(value);
-        }
-
-        return Boolean.parseBoolean(value);
-    }
-
-    public Map<String, Object> parse(String data) {
+    public static Map<String, Object> parse(String data) {
         Map<String, Object> result = new LinkedHashMap<>();
 
         StringBuilder builder = new StringBuilder();
@@ -80,7 +48,7 @@ public final class Parser {
                 }
                 case ';' -> {
                     if (objectLevel == 0) {
-                        result.put(key, processValue(builder.toString()));
+                        result.put(key, parseValue(builder.toString()));
                         builder = new StringBuilder();
                     }
                     else {
@@ -94,5 +62,37 @@ public final class Parser {
         }
 
         return result;
+    }
+
+    private static Object parseValue(String value) {
+        if (value.equals("null")) {
+            return null;
+        }
+
+        if (value.contains("\"")) {
+            return value.replace("\"", "");
+        }
+
+        if (value.contains("'")) {
+            return value.replace("'", "").charAt(0);
+        }
+
+        if (containsNumber(value)) {
+            if (value.contains(".")) {
+                return Float.parseFloat(value);
+            }
+            return Integer.parseInt(value);
+        }
+
+        return Boolean.parseBoolean(value);
+    }
+
+    private static boolean containsNumber(String value) {
+        for (char c : value.toCharArray()) {
+            if (c > 47 && c < 58) {
+                return true;
+            }
+        }
+        return false;
     }
 }

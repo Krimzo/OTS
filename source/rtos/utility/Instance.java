@@ -1,4 +1,4 @@
-package rtos;
+package rtos.utility;
 
 import java.util.Arrays;
 import java.util.HashSet;

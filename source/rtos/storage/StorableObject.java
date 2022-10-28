@@ -1,4 +1,4 @@
-package rtos;
+package rtos.storage;
 
 public interface StorableObject {
     void putToContainer(ObjectContainer container);

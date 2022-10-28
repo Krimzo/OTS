@@ -1,7 +1,7 @@
 package example;
 
-import rtos.ObjectContainer;
-import rtos.StorableObject;
+import rtos.storage.ObjectContainer;
+import rtos.storage.StorableObject;
 
 import java.util.Locale;
 
@@ -27,9 +27,9 @@ public class Float3 implements StorableObject {
 
     @Override
     public void getFromContainer(ObjectContainer container) {
-        x = container.getPrimitive("x");
-        y = container.getPrimitive("y");
-        z = container.getPrimitive("z");
+        x = (float) container.get("x");
+        y = (float) container.get("y");
+        z = (float) container.get("z");
     }
 
     @Override

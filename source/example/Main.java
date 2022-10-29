@@ -1,48 +1,53 @@
 package example;
 
+import rtos.standard.ScopeType;
 import rtos.storage.ArrayContainer;
 import rtos.storage.ObjectContainer;
-import rtos.storage.StorableObject;
 
-public class Main implements StorableObject {
-    private final Float3 position = new Float3(1, 2, 3);
-    private String name = null;
-    private boolean visible = true;
-    private char c = '9';
-    private int[] data = new int[10];
+public class Main {
+    private static final String filepath = "example.txt";
 
     public static void main(String[] args) throws Exception {
+        saveExample();
+        loadExample();
+    }
+
+    private static void saveExample() throws Exception {
         ObjectContainer container = new ObjectContainer();
-        container.put("main", new Main());
-        container.saveToFile("test.txt");
 
-        container.clear();
-        container.loadFromFile("test.txt");
-        System.out.println(container.format());
-    }
+        container.put("someBool", true);
+        container.put("someInt", 6);
+        container.put("someFloat", 12.0f);
+        container.put("someChar", 'A');
+        container.put("someString", "yey");
+        container.put("someEnum", ScopeType.Primitive);
+        container.put("someRef", new Main());
+        container.put("someNullRef", null);
+        container.put("someStorableObject", new Float3(1, 2, 3));
 
-    @Override
-    public void putToContainer(ObjectContainer container) {
-        container.put("position", position);
-        container.put("name", name);
-        container.put("visible", visible);
-        container.put("c", c);
+        ArrayContainer someMixedArray = new ArrayContainer();
+        someMixedArray.add(0);
+        someMixedArray.add(1.0f);
+        someMixedArray.add('d');
+        someMixedArray.add("cool");
+        container.put("someMixedArray", someMixedArray);
 
-        ArrayContainer data = new ArrayContainer();
-        for (int val : this.data) data.add(val);
-        container.put("data", data);
-    }
-
-    @Override
-    public void getFromContainer(ObjectContainer container) {
-        position.getFromContainer((ObjectContainer) container.get("position"));
-        name = (String) container.get("name");
-        visible = (boolean) container.get("visible");
-        c = (char) container.get("c");
-
-        ArrayContainer data = (ArrayContainer) container.get("data");
-        for (int i = 0; i < this.data.length; i++) {
-            this.data[i] = (int) data.get(i);
+        ArrayContainer someMatrix = new ArrayContainer();
+        for (int i = 0; i < 3; i++) {
+            ArrayContainer tempArrayContainer = new ArrayContainer();
+            for (int j = 0; j < 3; j++) {
+                tempArrayContainer.add(i);
+            }
+            someMatrix.add(tempArrayContainer);
         }
+        container.put("someMatrix", someMatrix);
+
+        container.saveToFile(filepath);
+    }
+
+    private static void loadExample() throws Exception {
+        ObjectContainer container = new ObjectContainer();
+        container.loadFromFile(filepath);
+        System.out.println(container);
     }
 }

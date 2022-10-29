@@ -3,7 +3,9 @@ package rtos.storage;
 import rtos.processing.Formatter;
 import rtos.processing.Parser;
 import rtos.processing.Preprocessor;
+import rtos.processing.SyntaxException;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -11,31 +13,25 @@ import java.util.LinkedHashMap;
 public final class ObjectContainer extends LinkedHashMap<String, Object> {
     public ObjectContainer() {}
 
-    public void parse(String data) throws Exception {
-        parse(data, true);
-    }
-
-    public void parse(String data, boolean preprocess) throws Exception {
-        if (preprocess) {
-            data = Preprocessor.process(data);
+    public void load(String data) throws SyntaxException {
+        data = Preprocessor.processRawData(data);
+        final Object object = Parser.parseProcessedData(data).get("");
+        if (object instanceof ObjectContainer) {
+            this.putAll((ObjectContainer) object);
         }
-        putAll(Parser.parse(data));
     }
 
-    public String format() {
-        return format(0);
+    @Override
+    public String toString() {
+        return Formatter.formatObject(null, this, -1);
     }
 
-    public String format(int tabLevel) {
-        return Formatter.format(this, tabLevel, false);
+    public void loadFromFile(String filepath) throws IOException, SyntaxException {
+        this.load(Files.readString(Path.of(filepath)));
     }
 
-    public void loadFromFile(String filepath) throws Exception {
-        parse(Files.readString(Path.of(filepath)));
-    }
-
-    public void saveToFile(String filepath) throws Exception {
-        Files.writeString(Path.of(filepath), format());
+    public void saveToFile(String filepath) throws IOException {
+        Files.writeString(Path.of(filepath), this.toString());
     }
 
     @Override

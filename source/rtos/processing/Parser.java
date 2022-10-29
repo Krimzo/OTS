@@ -2,8 +2,6 @@ package rtos.processing;
 
 import rtos.storage.ArrayContainer;
 import rtos.storage.ObjectContainer;
-import rtos.utility.Instance;
-import rtos.utility.Strings;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,9 +10,8 @@ public final class Parser {
     private Parser() {}
 
     public static Map<String, Object> parse(String data) throws Exception {
-        runChecks(data);
-
         final Map<String, Object> result = new LinkedHashMap<>();
+
         StringBuilder keyBuilder = new StringBuilder();
         StringBuilder valueBuilder = new StringBuilder();
         boolean readingKey = true;
@@ -128,18 +125,6 @@ public final class Parser {
         return result;
     }
 
-    private static void runChecks(String data) throws Exception {
-        if (Strings.count(data, '=') != Strings.count(data, ';')) {
-            throw new Exception("Bad primitive initialisation");
-        }
-        if (Strings.count(data, '{') != Strings.count(data, '}')) {
-            throw new Exception("Bad object initialisation");
-        }
-        if (Strings.count(data, '[') != Strings.count(data, ']')) {
-            throw new Exception("Bad array initialisation");
-        }
-    }
-
     private static Object parseValue(String value) {
         try {
             if (value.equals("null")) {
@@ -157,7 +142,7 @@ public final class Parser {
                 return value.charAt(1);
             }
 
-            if (Strings.hasNumber(value)) {
+            if (value.chars().anyMatch(Character::isDigit)) {
                 if (value.contains(".")) {
                     return Float.parseFloat(value);
                 }
@@ -185,7 +170,7 @@ public final class Parser {
                         final String source = builder.toString();
                         final Object object = parseValue(source);
 
-                        if (!Instance.isNull(object)) {
+                        if (object != null) {
                             result.add(object);
                         }
                         else {

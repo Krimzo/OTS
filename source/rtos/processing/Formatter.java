@@ -45,62 +45,6 @@ public final class Formatter {
         }
     }
 
-    private static void formatObject(StringBuilder builder, ObjectContainer container, int tabLevel, boolean inArray) {
-        if (inArray) {
-            builder.append("{\n");
-            builder.append(container.format(tabLevel + 1));
-            builder.append(getTabs(tabLevel));
-            builder.append("}");
-        }
-        else {
-            builder.append("{\n");
-            builder.append(container.format(tabLevel + 1));
-            builder.append(getTabs(tabLevel));
-            builder.append("}\n");
-        }
-    }
-
-    private static void formatChar(StringBuilder builder, Character value, boolean inArray) {
-        if (inArray) {
-            builder.append("'");
-            builder.append(value);
-            builder.append("'");
-        }
-        else {
-            builder.append("= ");
-            builder.append("'");
-            builder.append(value);
-            builder.append("'");
-            builder.append(";\n");
-        }
-    }
-
-    private static void formatString(StringBuilder builder, String value, boolean inArray) {
-        if (inArray) {
-            builder.append('"');
-            builder.append(value);
-            builder.append('"');
-        }
-        else {
-            builder.append("= ");
-            builder.append('"');
-            builder.append(value);
-            builder.append('"');
-            builder.append(";\n");
-        }
-    }
-
-    private static void formatDefault(StringBuilder builder, Object value, boolean inArray) {
-        if (inArray) {
-            builder.append(value);
-        }
-        else {
-            builder.append("= ");
-            builder.append(value);
-            builder.append(";\n");
-        }
-    }
-
     private static void formatArray(StringBuilder builder, ArrayContainer container, int tabLevel, boolean inArray) {
         if (container.size() == 0) {
             builder.append("[]\n");
@@ -119,6 +63,62 @@ public final class Formatter {
 
         if (!inArray) {
             builder.append("\n");
+        }
+    }
+
+    private static void formatObject(StringBuilder builder, ObjectContainer container, int tabLevel, boolean inArray) {
+        if (inArray) {
+            builder.append("{\n");
+            builder.append(container.format(tabLevel + 1));
+            builder.append(getTabs(tabLevel));
+            builder.append("}");
+        }
+        else {
+            builder.append("{\n");
+            builder.append(container.format(tabLevel + 1));
+            builder.append(getTabs(tabLevel));
+            builder.append("}\n");
+        }
+    }
+
+    private static void formatString(StringBuilder builder, String value, boolean inArray) {
+        if (inArray) {
+            builder.append('"');
+            builder.append(value);
+            builder.append('"');
+        }
+        else {
+            builder.append("= ");
+            builder.append('"');
+            builder.append(value);
+            builder.append('"');
+            builder.append(";\n");
+        }
+    }
+
+    private static void formatChar(StringBuilder builder, Character value, boolean inArray) {
+        if (inArray) {
+            builder.append("'");
+            builder.append(value);
+            builder.append("'");
+        }
+        else {
+            builder.append("= ");
+            builder.append("'");
+            builder.append(value);
+            builder.append("'");
+            builder.append(";\n");
+        }
+    }
+
+    private static void formatDefault(StringBuilder builder, Object value, boolean inArray) {
+        if (inArray) {
+            builder.append(value);
+        }
+        else {
+            builder.append("= ");
+            builder.append(value);
+            builder.append(";\n");
         }
     }
 }

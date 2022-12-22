@@ -1,3 +1,3 @@
-# Readable Text Object Storage
+# Object Textual Serialisation
 
-Java object storage as readable text.
+JSON-like object serialisation in Kotlin.

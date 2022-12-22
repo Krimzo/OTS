@@ -21,7 +21,7 @@ fun main() {
     })
 
     // Write test
-    toFile("data.txt") {
+    toFile("examples/data.txt") {
         println(ObjectContainer())
         val primitive = ObjectContainer(false)
         println(primitive)

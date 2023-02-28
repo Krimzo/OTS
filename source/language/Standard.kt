@@ -1,5 +1,9 @@
 package language
 
+/*
+* Note: None of these should be changed.
+*/
+
 object Standard {
     const val nullValue: String = "null"
     const val falseValue: String = "false"
@@ -10,6 +14,7 @@ object Standard {
     const val comment: Char = '$'
 
     const val splitter: Char = ','
+    const val assign: Char = '='
 
     const val arrayStart: Char = '['
     const val arrayEnd: Char = ']'

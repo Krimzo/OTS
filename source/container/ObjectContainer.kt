@@ -16,11 +16,13 @@ class ObjectContainer() : DataContainer {
             return false
         }
 
+        // Null object
         if (data == Standard.nullValue) {
             value = null
             return true
         }
 
+        // Booleans
         if (data == Standard.falseValue) {
             value = false
             return true
@@ -30,26 +32,24 @@ class ObjectContainer() : DataContainer {
             return true
         }
 
+        // Chars/Strings
         if (data.length == 3 && data.first() == Standard.char && data.last() == Standard.char) {
             value = data[1]
             return true
         }
-        if (data.first() == Standard.string && data.last() == Standard.string) {
+        if (data.length >= 2 && data.first() == Standard.string && data.last() == Standard.string) {
             value = data.substring(1, data.length - 1)
             return true
         }
 
-        if (safe {
-            value = data.toLong()
-        }) {
+        // Scalars
+        if (safe { value = data.toLong() }) {
+            return true
+        }
+        if (safe { value = data.toDouble() }) {
             return true
         }
 
-        if (safe {
-            value = data.toDouble()
-        }) {
-            return true
-        }
         return false
     }
 

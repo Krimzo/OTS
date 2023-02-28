@@ -1,7 +1,7 @@
 package language
 
 object Parser {
-    fun parseArray(data: String): ArrayList<String> {
+    fun splitArrayData(data: String): ArrayList<String> {
         var scopeLevel = 0
         var inChar = false
         var inString = false
@@ -43,11 +43,10 @@ object Parser {
         return result
     }
 
-    fun parseMap(data: String): LinkedHashMap<String, String> {
-        val parts = parseArray(data)
+    fun splitMapData(data: String): LinkedHashMap<String, String> {
         val result = LinkedHashMap<String, String>()
-        for (part in parts) {
-            val pieces = part.split("=")
+        for (part in splitArrayData(data)) {
+            val pieces = part.split(Standard.assign, limit=2)
             if (pieces.size == 2) {
                 result[pieces[0]] = pieces[1]
             }

@@ -16,7 +16,7 @@ class Preprocessor : HashMap<String, String>() {
         return result
     }
 
-    private fun  removeWhitespace(data: String): String {
+    private fun removeWhitespace(data: String): String {
         var inChar = false
         var inString = false
         var inComment = false

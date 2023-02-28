@@ -5,9 +5,13 @@ import utility.toFile
 import utility.use
 
 fun main() {
-    // Read test
+    readTest()
+    writeTest()
+}
+
+fun readTest() {
     println(ArrayContainer().use {
-        it.fromString(" \n    \n[      \n      'C' , 17\n, {something=[0, 1, \"je xD puno $$\"], da=6, ne=12.7}]")
+        it.fromString(" \n    \n[    \n      'C' , 17\n, {something=[0, 1, $ comment \"je xD puno $6$\" $ ], da=6, ne=12.7}]")
     })
     println(MapContainer().use {
         it.fromString("\n\t{da=2,ne='?'\$PECANJE\$, mozda =     17.9\n}\t")
@@ -19,8 +23,9 @@ fun main() {
             it["z"] = ObjectContainer(6f)
         })
     })
+}
 
-    // Write test
+fun writeTest() {
     toFile("examples/data.txt") {
         println(ObjectContainer())
         val primitive = ObjectContainer(false)

@@ -1,8 +1,0 @@
-null
-false
-{}
-{pecanje="HAHA", mozda=6}
-[]
-['C', 17]
-{firstArray=[{da=6, ne='C', mozda="HAHA"}]}
-{x=1.0, y=2.0, z=3.0}

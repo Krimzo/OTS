@@ -4,7 +4,13 @@ import language.Parser
 import language.Preprocessor
 import language.Standard
 
-class ArrayContainer : ArrayList<DataContainer>(), DataContainer {
+class ArrayContainer : ArrayList<DataContainer>, DataContainer {
+    constructor()
+
+    constructor(source: String) {
+        fromString(source)
+    }
+
     override fun fromString(data: String, preprocessor: Preprocessor): Boolean {
         var data = preprocessor.process(data)
 

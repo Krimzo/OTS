@@ -4,8 +4,10 @@ import language.Preprocessor
 import language.Standard
 import utility.safe
 
-class ObjectContainer() : DataContainer {
+class ObjectContainer : DataContainer {
     var value: Any? = null
+
+    constructor()
 
     constructor(value: Any?) : this() {
         this.value = value

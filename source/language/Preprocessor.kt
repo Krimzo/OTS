@@ -20,32 +20,26 @@ class Preprocessor : HashMap<String, String>() {
         var inChar = false
         var inString = false
         var inComment = false
-
         val builder = StringBuilder()
         for (value in data) {
-            if (!inString && !inComment && value == Standard.char) {
+            if (value == Standard.comment && !inChar && !inString) {
+                inComment = !inComment
+                continue
+            }
+            if (inComment)
+                continue
+
+            if (value == Standard.char && !inString) {
                 inChar = !inChar
             }
-            if (!inChar && !inComment && value == Standard.string) {
+            if (value == Standard.string && !inChar) {
                 inString = !inString
             }
-            if (!inChar && !inString && value == Standard.comment) {
-                inComment = !inComment
-            }
 
-            if (!inComment) {
-                if (inChar || inString) {
-                    builder.append(value)
-                }
-                else if (!blacklist.contains(value)) {
-                    builder.append(value)
-                }
+            if (inChar || inString || !value.isWhitespace()) {
+                builder.append(value)
             }
         }
         return builder.toString()
-    }
-
-    companion object {
-        private val blacklist: CharArray = charArrayOf(' ', '\t', '\n', Standard.comment)
     }
 }

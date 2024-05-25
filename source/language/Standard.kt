@@ -1,8 +1,7 @@
 package language
 
-/*
-* Note: None of these should be changed.
-*/
+typealias ArrayContainerType <T> = ArrayList<T>
+typealias MapContainerType <K, V> = HashMap<K, V>
 
 object Standard {
     const val nullValue: String = "null"
@@ -14,7 +13,7 @@ object Standard {
     const val comment: Char = '$'
 
     const val splitter: Char = ','
-    const val assign: Char = '='
+    const val assign: Char = ':'
 
     const val arrayStart: Char = '['
     const val arrayEnd: Char = ']'

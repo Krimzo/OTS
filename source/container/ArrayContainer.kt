@@ -1,11 +1,13 @@
 package container
 
+import language.ArrayContainerType
 import language.Parser
 import language.Preprocessor
 import language.Standard
 
-class ArrayContainer : ArrayList<DataContainer>, DataContainer {
-    constructor()
+class ArrayContainer : ArrayContainerType<DataContainer>, DataContainer {
+    constructor() {
+    }
 
     constructor(source: String) {
         fromString(source)
@@ -13,6 +15,9 @@ class ArrayContainer : ArrayList<DataContainer>, DataContainer {
 
     override fun fromString(data: String, preprocessor: Preprocessor): Boolean {
         var data = preprocessor.process(data)
+        if (data.isEmpty()) {
+            return false
+        }
 
         // Length/(first, last) check
         if (data.length < 2) {
@@ -42,6 +47,20 @@ class ArrayContainer : ArrayList<DataContainer>, DataContainer {
     }
 
     override fun toString(): String {
-        return super.toString()
+        if (this.isEmpty()) {
+            return "${Standard.arrayStart}${Standard.arrayEnd}"
+        }
+
+        val builder = StringBuilder()
+        builder.append(Standard.arrayStart)
+        val iterator = this.iterator()
+        while (iterator.hasNext()) {
+            builder.append(iterator.next().toString())
+            if (iterator.hasNext()) {
+                builder.append(Standard.splitter).append(' ')
+            }
+        }
+        builder.append(Standard.arrayEnd)
+        return builder.toString()
     }
 }

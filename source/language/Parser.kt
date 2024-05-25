@@ -1,13 +1,12 @@
 package language
 
 object Parser {
-    fun splitArrayData(data: String): ArrayList<String> {
+    fun splitArrayData(data: String): ArrayContainerType<String> {
+        val result = ArrayContainerType<String>()
         var scopeLevel = 0
         var inChar = false
         var inString = false
-
         var builder = StringBuilder()
-        val result = ArrayList<String>()
         for (value in data) {
             when (value) {
                 Standard.char -> {
@@ -32,7 +31,7 @@ object Parser {
                 }
             }
 
-            if (scopeLevel == 0 && value == Standard.splitter) {
+            if (value == Standard.splitter && scopeLevel == 0) {
                 result.add(builder.toString())
                 builder = StringBuilder()
             }
@@ -43,8 +42,8 @@ object Parser {
         return result
     }
 
-    fun splitMapData(data: String): LinkedHashMap<String, String> {
-        val result = LinkedHashMap<String, String>()
+    fun splitMapData(data: String): MapContainerType<String, String> {
+        val result = MapContainerType<String, String>()
         for (part in splitArrayData(data)) {
             val pieces = part.split(Standard.assign, limit=2)
             if (pieces.size == 2) {

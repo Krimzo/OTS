@@ -1,11 +1,13 @@
 package container
 
+import language.MapContainerType
 import language.Parser
 import language.Preprocessor
 import language.Standard
 
-class MapContainer : LinkedHashMap<String, DataContainer>, DataContainer {
-    constructor()
+class MapContainer : MapContainerType<String, DataContainer>, DataContainer {
+    constructor() {
+    }
 
     constructor(source: String) {
         fromString(source)
@@ -13,6 +15,9 @@ class MapContainer : LinkedHashMap<String, DataContainer>, DataContainer {
 
     override fun fromString(data: String, preprocessor: Preprocessor): Boolean {
         var data = preprocessor.process(data)
+        if (data.isEmpty()) {
+            return false
+        }
 
         // Length/(first, last) check
         if (data.length < 2) {
@@ -42,6 +47,23 @@ class MapContainer : LinkedHashMap<String, DataContainer>, DataContainer {
     }
 
     override fun toString(): String {
-        return super.toString()
+        if (this.isEmpty()) {
+            return "${Standard.mapStart}${Standard.mapEnd}"
+        }
+
+        val builder = StringBuilder()
+        builder.append(Standard.mapStart).append(' ')
+        val iterator = this.iterator()
+        while (iterator.hasNext()) {
+            val (key, value) = iterator.next()
+            builder.append(key)
+            builder.append(Standard.assign).append(' ')
+            builder.append(value.toString())
+            if (iterator.hasNext()) {
+                builder.append(Standard.splitter).append(' ')
+            }
+        }
+        builder.append(' ').append(Standard.mapEnd)
+        return builder.toString()
     }
 }

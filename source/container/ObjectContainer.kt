@@ -7,13 +7,15 @@ import utility.safe
 class ObjectContainer : DataContainer {
     var value: Any? = null
 
-    constructor()
+    constructor() {
+    }
 
-    constructor(value: Any?) : this() {
-        this.value = value
+    constructor(source: String) {
+        fromString(source)
     }
 
     override fun fromString(data: String, preprocessor: Preprocessor): Boolean {
+        val data = preprocessor.process(data)
         if (data.isEmpty()) {
             return false
         }
@@ -35,8 +37,8 @@ class ObjectContainer : DataContainer {
         }
 
         // Chars/Strings
-        if (data.length == 3 && data.first() == Standard.char && data.last() == Standard.char) {
-            value = data[1]
+        if (data.length >= 3 && data.first() == Standard.char && data.last() == Standard.char) {
+            value = data[1] // currently doesn't support multi-character chars
             return true
         }
         if (data.length >= 2 && data.first() == Standard.string && data.last() == Standard.string) {
@@ -51,7 +53,6 @@ class ObjectContainer : DataContainer {
         if (safe { value = data.toDouble() }) {
             return true
         }
-
         return false
     }
 

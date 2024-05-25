@@ -1,8 +1,3 @@
-## About
-JSON-like object serialisation for Kotlin objects.
-
-## Example
-```kotlin
 import container.MapContainer
 import container.fromContainer
 import container.toContainer
@@ -31,4 +26,3 @@ fun main() {
     val container = data.toContainer()
     println(container) // { id: "some_id", value: 16 }
 }
-```

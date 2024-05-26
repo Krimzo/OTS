@@ -1,44 +1,96 @@
 package container
 
 import language.Preprocessor
-import utility.safe
 
 interface DataContainer {
     fun fromString(data: String, preprocessor: Preprocessor = Preprocessor()): Boolean
     override fun toString(): String
 }
 
-fun Any.fromContainer(container: MapContainer): Boolean {
-    for (field in this::class.java.declaredFields) {
-        if (!field.trySetAccessible())
-            continue
-
-        safe {
-            var value: Any? = container[field.name]
-            if (value is ObjectContainer) {
-                value = value.value
-            }
-            field.set(this, value)
-        }
+fun DataContainer.getBoolean(): Boolean? {
+    if (this !is ObjectContainer) {
+        return null
     }
-    return true
+    if (value is Boolean) {
+        return value as Boolean
+    }
+    return null
 }
 
-fun Any.toContainer(): MapContainer {
-    val container = MapContainer()
-    for (field in this::class.java.declaredFields) {
-        if (!field.trySetAccessible())
-            continue
-
-        val fieldValue = field.get(this)
-        container[field.name] = if (fieldValue !is DataContainer) {
-            val container = ObjectContainer()
-            container.value = fieldValue
-            container
-        }
-        else {
-            fieldValue
-        }
+fun DataContainer.getByte(): Byte? {
+    if (this !is ObjectContainer) {
+        return null
     }
-    return container
+    if (value is Number) {
+        return (value as Number).toByte()
+    }
+    return null
+}
+
+fun DataContainer.getShort(): Short? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    if (value is Number) {
+        return (value as Number).toShort()
+    }
+    return null
+}
+
+fun DataContainer.getInt(): Int? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    if (value is Number) {
+        return (value as Number).toInt()
+    }
+    return null
+}
+
+fun DataContainer.getLong(): Long? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    if (value is Number) {
+        return (value as Number).toLong()
+    }
+    return null
+}
+
+fun DataContainer.getFloat(): Float? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    if (value is Number) {
+        return (value as Number).toFloat()
+    }
+    return null
+}
+
+fun DataContainer.getDouble(): Double? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    if (value is Number) {
+        return (value as Number).toDouble()
+    }
+    return null
+}
+
+fun DataContainer.getChar(): Char? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    when (value) {
+        is Number -> return (value as Number).toChar()
+        is Char -> return value as Char
+    }
+    return null
+}
+
+fun DataContainer.getString(): String? {
+    if (this !is ObjectContainer) {
+        return null
+    }
+    return value?.toString()
 }

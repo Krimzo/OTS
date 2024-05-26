@@ -65,4 +65,12 @@ class ObjectContainer : DataContainer {
         }
         return value.toString()
     }
+
+    companion object {
+        fun from(value: Any?): ObjectContainer {
+            val container = ObjectContainer()
+            container.value = value
+            return container
+        }
+    }
 }

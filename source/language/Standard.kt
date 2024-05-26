@@ -1,7 +1,7 @@
 package language
 
 typealias ArrayContainerType <T> = ArrayList<T>
-typealias MapContainerType <K, V> = HashMap<K, V>
+typealias MapContainerType <K, V> = LinkedHashMap<K, V>
 
 object Standard {
     const val nullValue: String = "null"

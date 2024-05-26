@@ -1,18 +1,25 @@
-import container.ArrayContainer
-import container.MapContainer
-import container.ObjectContainer
-import container.fromContainer
+import container.*
 
-class Person {
+class Person : MapSerializable {
     var name: String = ""
-    var age: Double? = 0.0
+    var age: Float? = 0f
 
     constructor() {
     }
 
-    constructor(name: String, age: Double?) {
+    constructor(name: String, age: Float?) {
         this.name = name
         this.age = age
+    }
+
+    override fun fromMap(map: MapContainer) {
+        this.name = map["name"]?.getString() ?: ""
+        this.age = map["age"]?.getFloat()
+    }
+
+    override fun toMap(map: MapContainer) {
+        map["name"] = ObjectContainer.from(name)
+        map["age"] = ObjectContainer.from(age)
     }
 
     override fun toString(): String {

@@ -10,8 +10,8 @@ class Data0 : MapSerializable {
     var value: Int = 0
 
     override fun toMap(map: MapContainer) {
-        map["id"] = ObjectContainer.from(id)
-        map["value"] = ObjectContainer.from(value)
+        map["id"] = LiteralContainer.from(id)
+        map["value"] = LiteralContainer.from(value)
     }
 
     override fun fromMap(map: MapContainer) {
@@ -30,9 +30,9 @@ class Data1 : MapSerializable {
     var chance: Float? = 0f
 
     override fun toMap(map: MapContainer) {
-        map["id"] = ObjectContainer.from(id)
+        map["id"] = LiteralContainer.from(id)
         map["data0"] = data0.toContainer()
-        map["chance"] = ObjectContainer.from(chance)
+        map["chance"] = LiteralContainer.from(chance)
     }
 
     override fun fromMap(map: MapContainer) {

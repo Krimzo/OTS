@@ -18,8 +18,8 @@ class Person : MapSerializable {
     }
 
     override fun toMap(map: MapContainer) {
-        map["name"] = ObjectContainer.from(name)
-        map["age"] = ObjectContainer.from(age)
+        map["name"] = LiteralContainer.from(name)
+        map["age"] = LiteralContainer.from(age)
     }
 
     override fun toString(): String {
@@ -37,14 +37,14 @@ fun main() {
     }
 
     // Object test
-    test(ObjectContainer(""), "null")
-    test(ObjectContainer("null"), "null")
-    test(ObjectContainer("false"), "false")
-    test(ObjectContainer("5"), "5")
-    test(ObjectContainer("17.9"), "17.9")
-    test(ObjectContainer("'c'"), "'c'")
-    test(ObjectContainer("\"something random $\""), "\"something random $\"")
-    test(ObjectContainer("\$this is\$ 12 \$some comment\$"), "12")
+    test(LiteralContainer(""), "null")
+    test(LiteralContainer("null"), "null")
+    test(LiteralContainer("false"), "false")
+    test(LiteralContainer("5"), "5")
+    test(LiteralContainer("17.9"), "17.9")
+    test(LiteralContainer("'c'"), "'c'")
+    test(LiteralContainer("\"something random $\""), "\"something random $\"")
+    test(LiteralContainer("\$this is\$ 12 \$some comment\$"), "12")
 
     // Array test
     test(ArrayContainer("[]"), "[]")

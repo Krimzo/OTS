@@ -36,7 +36,7 @@ class MapContainer : MapContainerType<String, DataContainer>, DataContainer {
         // Split to parts and parse each part
         this.clear()
         for (part in Parser.splitMapData(data)) {
-            for (container in arrayOf(ObjectContainer(), ArrayContainer(), MapContainer())) {
+            for (container in arrayOf(LiteralContainer(), ArrayContainer(), MapContainer())) {
                 if (container.fromString(part.value)) {
                     this[part.key] = container
                     break

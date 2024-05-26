@@ -4,7 +4,7 @@ import language.Preprocessor
 import language.Standard
 import utility.safe
 
-class ObjectContainer : DataContainer {
+class LiteralContainer : DataContainer {
     var value: Any? = null
 
     constructor() {
@@ -67,8 +67,8 @@ class ObjectContainer : DataContainer {
     }
 
     companion object {
-        fun from(value: Any?): ObjectContainer {
-            val container = ObjectContainer()
+        fun from(value: Any?): LiteralContainer {
+            val container = LiteralContainer()
             container.value = value
             return container
         }

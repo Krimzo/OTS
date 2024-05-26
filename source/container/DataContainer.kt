@@ -8,7 +8,7 @@ interface DataContainer {
 }
 
 fun DataContainer.getBoolean(): Boolean? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Boolean) {
@@ -18,7 +18,7 @@ fun DataContainer.getBoolean(): Boolean? {
 }
 
 fun DataContainer.getByte(): Byte? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Number) {
@@ -28,7 +28,7 @@ fun DataContainer.getByte(): Byte? {
 }
 
 fun DataContainer.getShort(): Short? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Number) {
@@ -38,7 +38,7 @@ fun DataContainer.getShort(): Short? {
 }
 
 fun DataContainer.getInt(): Int? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Number) {
@@ -48,7 +48,7 @@ fun DataContainer.getInt(): Int? {
 }
 
 fun DataContainer.getLong(): Long? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Number) {
@@ -58,7 +58,7 @@ fun DataContainer.getLong(): Long? {
 }
 
 fun DataContainer.getFloat(): Float? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Number) {
@@ -68,7 +68,7 @@ fun DataContainer.getFloat(): Float? {
 }
 
 fun DataContainer.getDouble(): Double? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     if (value is Number) {
@@ -78,7 +78,7 @@ fun DataContainer.getDouble(): Double? {
 }
 
 fun DataContainer.getChar(): Char? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     when (value) {
@@ -89,7 +89,7 @@ fun DataContainer.getChar(): Char? {
 }
 
 fun DataContainer.getString(): String? {
-    if (this !is ObjectContainer) {
+    if (this !is LiteralContainer) {
         return null
     }
     return value?.toString()

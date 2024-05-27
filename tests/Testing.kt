@@ -28,7 +28,7 @@ class Person : MapSerializable {
 }
 
 fun main() {
-    val test = { container: Any, expected: String ->
+    val test = { container: DataContainer, expected: String ->
         val result = container.toString()
         if (result != expected) {
             throw Exception("Expected: $expected, but got: $result")
@@ -36,7 +36,7 @@ fun main() {
         println("Test passed: $result")
     }
 
-    // Object test
+    // objects
     test(LiteralContainer(""), "null")
     test(LiteralContainer("null"), "null")
     test(LiteralContainer("false"), "false")
@@ -46,18 +46,19 @@ fun main() {
     test(LiteralContainer("\"something random $\""), "\"something random $\"")
     test(LiteralContainer("\$this is\$ 12 \$some comment\$"), "12")
 
-    // Array test
+    // arrays
     test(ArrayContainer("[]"), "[]")
     test(ArrayContainer("[1, 2, 3, [4, 5, 6, [7, 8, 9 ],], 10]"), "[1, 2, 3, [4, 5, 6, [7, 8, 9]], 10]")
 
-    // Map test
+    // maps
     test(MapContainer("{}"), "{}")
     test(MapContainer("{data: 16, person: {name: \"Krimzo\", age: 22}}"), "{ data: 16, person: { name: \"Krimzo\", age: 22 } }")
 
-    // Helper test
+    // helpers
+    val mapContainer = MapContainer("{ name: \"Krimzo\", age: 22.0 }")
     val person = Person()
-    person.fromContainer(MapContainer("{ name: \"Krimzo\", age: null }"))
-    test(person, Person("Krimzo", null).toString())
+    person.fromContainer(mapContainer)
+    test(mapContainer, person.toContainer().toString())
 
     println("All tests passed!")
 }
